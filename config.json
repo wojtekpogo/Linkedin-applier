@@ -1,0 +1,7 @@
+{
+    "email": "email",
+    "password":"password",
+    "keyword": "Graduate Software Engineer",
+    "location": "Ireland",
+    "driver_path": "./chromedriver"
+}
