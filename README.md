@@ -1,2 +1,3 @@
 # Linkedin-applier
-Automate Linkedin Applications
+
+Update the config file with your credentials
