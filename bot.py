@@ -38,21 +38,28 @@ class ApplyLinkedin:
 
         jobs = self.driver.find_element_by_link_text('Jobs')
         jobs.click()
+        time.sleep(2)
 
 
         # keywords
-        search_job = self.driver.find_element_by_xpath("//input[starts-with(@id='jobs-search-box-keyword)]")
+        search_job = self.driver.find_element_by_xpath("//input[starts-with(@id, 'jobs-search-box-keyword')]")
         search_job.clear()
-        search.send_keys(self.keyword)
+        search_job.send_keys(self.keyword)
 
         # night night
         time.sleep(2)
 
         # location
-        search_location = self.driver.find_element_by_xpath("//input[starts-with([@id='jobs-search-box-location')]")
+        search_location = self.driver.find_element_by_xpath("//input[starts-with(@id, 'jobs-search-box-location')]")
         search_location.clear()
-        search.send_keys(self.location)
+        search_location.send_keys(self.location)
         search_location.send_keys(Keys.RETURN)
+        time.sleep(2)
+
+        # Locate the search button and click it
+        search = self.driver.find_element_by_xpath("//button[text()='Search']")
+        search.click()
+        time.sleep(1)
 
 
 
