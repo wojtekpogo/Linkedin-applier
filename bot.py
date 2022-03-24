@@ -66,23 +66,14 @@ class ApplyLinkedin:
     def filter(self):
         """This function filters the jobs and looks for the one with 'quick apply' option"""
 
-        all_filters = self.driver.find_element_by_xpath('//button[normalize-space()="All filters"]')
-        all_filters.click()
-        time.sleep(1)
+        # all_filters = self.driver.find_element_by_xpath('//button[normalize-space()="All filters"]')
+        # all_filters.click()
+        # time.sleep(1)
 
-        #easy_apply_toggle = self.driver.find_element_by_xpath('//label[@for="adToggle_ember832"]')
-        #toggle_element = WebDriverWait(self.driver,5000).until(EC.visibility_of_element_located((by.XPATH,"//input[starts-with(@id, 'adToggle_ember')]" )))
-        easy_apply_toggle = self.driver.find_element_by_xpath("//input[starts-with(@id, 'adToggle_ember')]")
-        #driver.execute_script("arguments[0].scrollIntoView();",elem)
-        if easy_apply_toggle:
-            print("found")
-        easy_apply_toggle.click()
-        #easy_apply_toggle.click()
+        self.driver.find_element_by_xpath('//button[contains(@aria-label, "Easy Apply filter.")]').click()
         time.sleep(1)
 
         
-
-
 if __name__ == "__main__":
 
     with open('config.json') as config:
