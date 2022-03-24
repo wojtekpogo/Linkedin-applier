@@ -61,15 +61,21 @@ class ApplyLinkedin:
         search.click()
         time.sleep(1)
 
+    def filter(self):
+        """This function filters the jobs and looks for the one with 'quick apply' option"""
 
+        all_filters = self.driver.find_element_by_xpath('//button[normalize-space()="All filters"]')
+        all_filters.click()
+        time.sleep(1)
 
+        #easy_apply_toggle = self.driver.find_element_by_xpath('//label[@for="adToggle_ember832"]')
+        easy_apply_toggle = self.driver.find_element_by_xpath("//label[contains(text(), 'adToggle_ember')]")
+        if easy_apply_toggle:
+            print("found")
+        #easy_apply_toggle.click()
+        #time.sleep(1)
 
-
-
-
-
-
-
+        
 
 
 if __name__ == "__main__":
@@ -78,5 +84,7 @@ if __name__ == "__main__":
         data = json.load(config)
     bot = ApplyLinkedin(data)
     bot.login()
-    time.sleep(3)
+    time.sleep(2)
     bot.job_search()
+    time.sleep(2)
+    bot.filter()
