@@ -77,6 +77,8 @@ class ApplyLinkedin:
     def find_job(self):
         """This function filters through the jobs"""
         total_jobs_on_the_page = 24
+        # Amount of jobs displayed on one page +1
+        job_steps = 25
 
         total_offers = self.driver.find_element_by_class_name("display-flex.t-12.t-black--light.t-normal")
         total_results  = int(total_offers.text.split(' ',1)[0].replace(",",""))
@@ -88,7 +90,7 @@ class ApplyLinkedin:
         for result in results:
             hover = ActionChains(self.driver).move_to_element(result)
             hover.perform()
-            job_title = self.driver.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
+            job_title = result.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
 
             for title in job_title:
                 self.apply(title)
@@ -106,11 +108,29 @@ class ApplyLinkedin:
             last_page = self.driver.current_url
             total_jobs = int(last_page.split('start=',1)[1])
 
+            # Loop through all available job options
 
+            for page_number in range(job_steps,total_jobs+job_steps,job_steps):
+                self.driver.get(current_page+"&start="+str(page_number))
+                time.sleep(2)
+                results_e = self.driver.find_element_by_class_name("jobs-search-results__list-item.occludable-update.p0.relative.ember-view")
 
+                for result_e in results_e:
+                    hover = ActionChains(self.driver).move_to_element(result_e)
+                    hover.perform()
+                    job_title_e = result_e.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
 
+                    for title_e in job_title_e:
+                        self.apply(title_e)
+    
 
-        
+    def close(self):
+        """Closes the application"""
+
+        print("Session ended.")
+        self.driver.close()
+
+   
     def apply(self,job):
         """This function submit the application for the selected job"""
 
