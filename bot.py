@@ -3,6 +3,7 @@ import json
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time
 
 class ApplyLinkedin:
@@ -38,8 +39,9 @@ class ApplyLinkedin:
         # close_messages.click()
         # time.sleep(1)
 
-        jobs = self.driver.find_element_by_link_text('Jobs')
-        jobs.click()
+        #jobs = self.driver.find_element_by_link_text('Jobs')
+        jobs = WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.LINK_TEXT,"Jobs"))).click()
+        #jobs.click()
         time.sleep(2)
 
 
@@ -64,14 +66,20 @@ class ApplyLinkedin:
         time.sleep(1)
 
     def filter(self):
-        """This function filters the jobs and looks for the one with 'quick apply' option"""
-
-        # all_filters = self.driver.find_element_by_xpath('//button[normalize-space()="All filters"]')
-        # all_filters.click()
-        # time.sleep(1)
-
+        """This function applies 'easy apply' option"""
+ 
         self.driver.find_element_by_xpath('//button[contains(@aria-label, "Easy Apply filter.")]').click()
         time.sleep(1)
+    
+    def find_job(self):
+        """This function filters through the jobs"""
+
+        total_offers = self.driver.find_element_by_class_name("display-flex.t-12.t-black--light.t-normal")
+        total_results  = int(total_offers.text.split(' ',1)[0].replace(",",""))
+        #print(total_results)
+        time.sleep(1)
+
+
 
         
 if __name__ == "__main__":
@@ -84,3 +92,5 @@ if __name__ == "__main__":
     bot.job_search()
     time.sleep(2)
     bot.filter()
+    time.sleep(2)
+    bot.find_job()
