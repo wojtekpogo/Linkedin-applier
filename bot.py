@@ -9,7 +9,7 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import re
 
-class ApplyLinkedin:
+class submitLinkedin:
 
     def __init__(self,data):
         """Parameters"""
@@ -69,9 +69,9 @@ class ApplyLinkedin:
         time.sleep(1)
 
     def filter(self):
-        """This function applies 'easy apply' option"""
+        """This function applies 'easy submit' option"""
  
-        self.driver.find_element_by_xpath('//button[contains(@aria-label, "Easy Apply filter.")]').click()
+        self.driver.find_element_by_xpath('//button[contains(@aria-label, "Easy submit filter.")]').click()
         time.sleep(1)
     
     def find_job(self):
@@ -93,7 +93,7 @@ class ApplyLinkedin:
             job_title = result.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
 
             for title in job_title:
-                self.apply(title)
+                self.submit(title)
         
         if total_results > total_jobs_on_the_page:
             time.sleep(1)
@@ -121,7 +121,10 @@ class ApplyLinkedin:
                     job_title_e = result_e.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
 
                     for title_e in job_title_e:
-                        self.apply(title_e)
+                        self.submit(title_e)
+        else:
+            self.close()
+
     
 
     def close(self):
@@ -131,7 +134,7 @@ class ApplyLinkedin:
         self.driver.close()
 
    
-    def apply(self,job):
+    def submit(self,job):
         """This function submit the application for the selected job"""
 
          # 1. only apply for the jobs that doesnt redirect to the different page
@@ -145,7 +148,7 @@ class ApplyLinkedin:
         current_url = self.driver.current_url
 
         try:
-            apply_click = self.find_element_by_class_name("jobs-apply-button.artdeco-button.artdeco-button--3.artdeco-button--primary.ember-view").click()
+            submit_click = self.find_element_by_class_name("jobs-submit-button.artdeco-button.artdeco-button--3.artdeco-button--primary.ember-view").click()
         except NoSuchElementException:
             print("Already applied.")
             pass
@@ -154,26 +157,36 @@ class ApplyLinkedin:
         # Try to submit application
         try:
             # Next button
-            submit = self.driver.find_element_by_class_name("jobs-apply-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view").click()
+            submit = self.driver.find_element_by_class_name("jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view").click()
         except NoSuchElementException:
-            print("Unable to apply")
+            print("Unable to submit")
             try:
                 discard = self.driver.find_element_by_xpath("//button[@data-test-modal-close-btn]").click()
                 time.sleep(1)
                 confirm_discard = self.driver.find_element_by_xpath("//button[@data-test-dialog-btn").click()
             except NoSuchElementException:
                 pass
-            
-                     
+
+    def apply(self):
+
+        self.driver.maximize_window()
+        # Login
+        self.login()
+        time.sleep(2)
+        # Job Search
+        self.job_search()
+        time.sleep(3)
+        # Filter job offers
+        self.filter()
+        time.sleep(2)
+        self.find_job()
+        time.sleep(2)
+        self.close()
+                    
 if __name__ == "__main__":
 
     with open('config.json') as config:
         data = json.load(config)
-    bot = ApplyLinkedin(data)
-    bot.login()
-    time.sleep(2)
-    bot.job_search()
-    time.sleep(2)
-    bot.filter()
-    time.sleep(2)
-    bot.find_job()
+    bot = submitLinkedin(data)
+    bot.apply()
+  
