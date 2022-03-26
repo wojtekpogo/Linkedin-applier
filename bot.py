@@ -4,6 +4,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exception import NoSuchElementException
 import time
 
 class ApplyLinkedin:
@@ -78,10 +80,48 @@ class ApplyLinkedin:
         total_results  = int(total_offers.text.split(' ',1)[0].replace(",",""))
         #print(total_results)
         time.sleep(1)
+        current_page = self.driver.current_url
+        results = self.driver.find_element_by_class_name("job-search-results__list-item.occludable-update.p0.relative.ember-view")
 
-
+        for result in results:
+            hover = ActionChains(self.driver).move_to_element(result)
+            hover.perform()
 
         
+    def apply(self,job):
+        """This function submit the application for the selected job"""
+
+         # 1. only apply for the jobs that doesnt redirect to the different page
+
+        print("You applied to ",job.text)
+        job.click()
+        time.sleep(2)
+
+         # Click on the easy apply
+
+        current_url = self.driver.current_url
+
+        try:
+            apply_click = self.find_element_by_class_name("jobs-apply-button.artdeco-button.artdeco-button--3.artdeco-button--primary.ember-view").click()
+        except NoSuchElementException:
+            print("Already applied.")
+            pass
+
+            
+        # Try to submit application
+        try:
+            # Next button
+            submit = self.driver.find_element_by_class_name("jobs-apply-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view").click()
+        except NoSuchElementException:
+            print("Unable to apply")
+            try:
+                discard = self.driver.find_element_by_xpath("//button[@data-test-modal-close-btn]").click()
+                time.sleep(1)
+                confirm_discard = self.driver.find_element_by_xpath("//button[@data-test-dialog-btn").click()
+            except NoSuchElementException:
+                pass
+            
+                     
 if __name__ == "__main__":
 
     with open('config.json') as config:
