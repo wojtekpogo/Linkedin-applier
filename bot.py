@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 import time
+import re
 
 class ApplyLinkedin:
 
@@ -75,6 +76,7 @@ class ApplyLinkedin:
     
     def find_job(self):
         """This function filters through the jobs"""
+        total_jobs_on_the_page = 24
 
         total_offers = self.driver.find_element_by_class_name("display-flex.t-12.t-black--light.t-normal")
         total_results  = int(total_offers.text.split(' ',1)[0].replace(",",""))
@@ -86,6 +88,27 @@ class ApplyLinkedin:
         for result in results:
             hover = ActionChains(self.driver).move_to_element(result)
             hover.perform()
+            job_title = self.driver.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
+
+            for title in job_title:
+                self.apply(title)
+        
+        if total_results > total_jobs_on_the_page:
+            time.sleep(1)
+
+            # Find the last page
+            find_page = self.driver.find_element_by_class_name("artdeco-pagination__indicator.artdeco-pagination__indicator--number")
+            total_page = find_page[len(find_page-1)].text
+            total_page_int = int(re.sub(r"[^\d.","",total_page))
+            get_last_page = self.driver.find_element_by_xpath("//button[@aria-label='Page "+str(total_page_int)+"']")
+            get_last_page.send_keys(Keys.RETURN)
+            time.sleep(2)
+            last_page = self.driver.current_url
+            total_jobs = int(last_page.split('start=',1)[1])
+
+
+
+
 
         
     def apply(self,job):
