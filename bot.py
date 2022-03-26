@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exception import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 import time
 
 class ApplyLinkedin:
@@ -81,7 +81,7 @@ class ApplyLinkedin:
         #print(total_results)
         time.sleep(1)
         current_page = self.driver.current_url
-        results = self.driver.find_element_by_class_name("job-search-results__list-item.occludable-update.p0.relative.ember-view")
+        results = self.driver.find_elements_by_class_name("jobs-search-results__list-item.occludable-update.p0.relative.ember-view")
 
         for result in results:
             hover = ActionChains(self.driver).move_to_element(result)
