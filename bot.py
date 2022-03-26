@@ -69,9 +69,9 @@ class submitLinkedin:
         time.sleep(1)
 
     def filter(self):
-        """This function applies 'easy submit' option"""
+        """This function applies 'easy apply' option"""
  
-        self.driver.find_element_by_xpath('//button[contains(@aria-label, "Easy submit filter.")]').click()
+        self.driver.find_element_by_xpath('//button[contains(@aria-label, "Easy Apply filter.")]').click()
         time.sleep(1)
     
     def find_job(self):
@@ -90,7 +90,7 @@ class submitLinkedin:
         for result in results:
             hover = ActionChains(self.driver).move_to_element(result)
             hover.perform()
-            job_title = result.find_element_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
+            job_title = result.find_elements_by_class_name("disabled.ember-view.job-card-container__link.job-card-list__title")
 
             for title in job_title:
                 self.submit(title)
