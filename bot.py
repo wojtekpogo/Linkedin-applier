@@ -158,7 +158,16 @@ class submitLinkedin:
         try:
             # Next button
             submit = self.driver.find_element_by_class_name("jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view").click()
-            time.sleep(2)
+
+            # Review Button
+            review_button = WebDriverWait(self.driver,3).until(EC.element_to_be_clickable((By.CLASS_NAME,
+            "jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view"))).click()
+
+            # Uncheck the checkbox
+            check_box = self.driver.find_element_by_xpath("//input[starts-with(@id,'follow-company-checkbox')]")
+            
+            
+
         except NoSuchElementException:
             print("Unable to submit")
             try:
