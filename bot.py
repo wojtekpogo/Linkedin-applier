@@ -152,8 +152,7 @@ class submitLinkedin:
         except NoSuchElementException:
             print("Already applied.")
             pass
-
-            
+          
         # Try to submit application
         try:
             # Next button
@@ -165,9 +164,11 @@ class submitLinkedin:
 
             # Uncheck the checkbox
             check_box = self.driver.find_element_by_xpath("//input[starts-with(@id,'follow-company-checkbox')]")
-            
-            
+            time.sleep(2)
 
+            # Submit application
+            submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application'])
+            
         except NoSuchElementException:
             print("Unable to submit")
             try:
