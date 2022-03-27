@@ -148,7 +148,7 @@ class submitLinkedin:
         current_url = self.driver.current_url
 
         try:
-            submit_click = self.find_element_by_class_name("jobs-submit-button.artdeco-button.artdeco-button--3.artdeco-button--primary.ember-view").click()
+            submit_click = self.driver.find_element_by_class_name("jobs-apply-button.artdeco-button.artdeco-button--3.artdeco-button--primary.ember-view").click()
         except NoSuchElementException:
             print("Already applied.")
             pass
@@ -158,6 +158,7 @@ class submitLinkedin:
         try:
             # Next button
             submit = self.driver.find_element_by_class_name("jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view").click()
+            time.sleep(2)
         except NoSuchElementException:
             print("Unable to submit")
             try:
