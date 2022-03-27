@@ -35,7 +35,6 @@ class submitLinkedin:
         login_password.send_keys(self.password)
         login_password.send_keys(Keys.RETURN)
 
-
     def job_search(self):
 
         #jobs = self.driver.find_element_by_link_text('Jobs')
@@ -186,12 +185,14 @@ class submitLinkedin:
         time.sleep(2)
         self.close()
 
+        # TO DO:
+        # add methods to dictionary/list and loop over and execute each of them
+
         # func_list = [self.login,self.job_search,self.filter,self.find_job,self.close]
         
         # for func in func_list:
         #     func(arg1)
-
-                    
+                   
 if __name__ == "__main__":
 
     with open('config.json') as config:
