@@ -37,16 +37,11 @@ class submitLinkedin:
 
 
     def job_search(self):
-        # close messages window
-        # close_messages = self.driver.find_element_by_xpath('//*[@id="ember175"]')
-        # close_messages.click()
-        # time.sleep(1)
 
         #jobs = self.driver.find_element_by_link_text('Jobs')
         jobs = WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.LINK_TEXT,"Jobs"))).click()
         #jobs.click()
         time.sleep(2)
-
 
         # keywords
         search_job = self.driver.find_element_by_xpath("//input[starts-with(@id, 'jobs-search-box-keyword')]")
@@ -125,15 +120,12 @@ class submitLinkedin:
         else:
             self.close()
 
-    
-
     def close(self):
         """Closes the application"""
 
         print("Session ended.")
         self.driver.close()
 
-   
     def submit(self,job):
         """This function submit the application for the selected job"""
 
@@ -167,7 +159,7 @@ class submitLinkedin:
             time.sleep(2)
 
             # Submit application
-            submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application'])
+            submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application']")
             
         except NoSuchElementException:
             print("Unable to submit")
@@ -193,6 +185,12 @@ class submitLinkedin:
         self.find_job()
         time.sleep(2)
         self.close()
+
+        # func_list = [self.login,self.job_search,self.filter,self.find_job,self.close]
+        
+        # for func in func_list:
+        #     func(arg1)
+
                     
 if __name__ == "__main__":
 
