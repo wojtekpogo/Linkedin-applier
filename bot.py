@@ -16,6 +16,7 @@ class submitLinkedin:
 
         self.email = data['email']
         self.password = data['password']
+        self.phone = data['phone']
         self.keyword = data['keyword']
         self.location = data['location']
         self.driver = webdriver.Chrome(data['driver_path'])
@@ -153,12 +154,19 @@ class submitLinkedin:
             review_button = WebDriverWait(self.driver,3).until(EC.element_to_be_clickable((By.CLASS_NAME,
             "jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view"))).click()
 
+            # Provide phone number
+            phone_number = WebDriverWait(self.driver,2).until(EC.element_to_be_clickable((By.CLASS_NAME,"ember-text-field.ember-view.fb-single-line-text__input"
+            phone_number.clear()
+            phone_number.send_keys(self.phone)
+            phone_number.send_keys(Keys.RETURN)
+
             # Uncheck the checkbox
             check_box = self.driver.find_element_by_xpath("//input[starts-with(@id,'follow-company-checkbox')]")
             time.sleep(2)
 
             # Submit application
             submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application']")
+
             
         except NoSuchElementException:
             print("Unable to submit")
