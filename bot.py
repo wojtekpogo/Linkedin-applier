@@ -148,32 +148,40 @@ class submitLinkedin:
         # Try to submit application
         try:
             # Next button
-            submit = self.driver.find_element_by_class_name("jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view").click()
+            submit = self.driver.find_element_by_class_name("artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view")
 
-            # Review Button
-            review_button = WebDriverWait(self.driver,3).until(EC.element_to_be_clickable((By.CLASS_NAME,
-            "jobs-submit-button.artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view"))).click()
 
-            # Provide phone number
-            phone_number = WebDriverWait(self.driver,2).until(EC.element_to_be_clickable((By.CLASS_NAME,"ember-text-field.ember-view.fb-single-line-text__input"
-            phone_number.clear()
-            phone_number.send_keys(self.phone)
-            phone_number.send_keys(Keys.RETURN)
+            # There are 2 types of 'easy apply' applications types, one which asks user to go to the next page
+            # the other one which submits application on one page
+            if submit:
+                submit.click()
+                time.sleep(2)
 
-            # Uncheck the checkbox
-            check_box = self.driver.find_element_by_xpath("//input[starts-with(@id,'follow-company-checkbox')]")
-            time.sleep(2)
+                # Review Button
+                review_button = WebDriverWait(self.driver,3).until(EC.element_to_be_clickable((By.CLASS_NAME,
+                "artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view"))).click()
 
-            # Submit application
-            submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application']")
+                # Uncheck the checkbox
+                check_box = self.driver.find_element_by_xpath("//input[starts-with(@id,'follow-company-checkbox')]")
+                time.sleep(2)
 
-            
+                
+            else:
+
+                # Provide phone number
+                phone_number = WebDriverWait(self.driver,2).until(EC.element_to_be_clickable((By.CLASS_NAME,"ember-text-field.ember-view.fb-single-line-text__input")))
+                phone_number.clear()
+                phone_number.send_keys(self.phone)
+                phone_number.send_keys(Keys.RETURN)
+                # Submit application
+                submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application']").click()
+    
         except NoSuchElementException:
             print("Unable to submit")
             try:
                 discard = self.driver.find_element_by_xpath("//button[@data-test-modal-close-btn]").click()
                 time.sleep(1)
-                confirm_discard = self.driver.find_element_by_xpath("//button[@data-test-dialog-btn").click()
+                confirm_discard = self.driver.find_element_by_xpath("//button[@data-test-dialog-secondary-btn").click()
             except NoSuchElementException:
                 pass
 
