@@ -150,7 +150,6 @@ class submitLinkedin:
             # Next button
             submit = self.driver.find_element_by_class_name("artdeco-button.artdeco-button--2.artdeco-button--primary.ember-view")
 
-
             # There are 2 types of 'easy apply' applications types, one which asks user to go to the next page
             # the other one which submits application on one page
             if submit:
@@ -164,10 +163,10 @@ class submitLinkedin:
                 # Uncheck the checkbox
                 check_box = self.driver.find_element_by_xpath("//input[starts-with(@id,'follow-company-checkbox')]")
                 time.sleep(2)
-
-                
+                # Submit application
+                submit_application = self.driver.find_element_by_xpath("//button[@aria-label='Submit application']").click()     
             else:
-
+                time.sleep(2)
                 # Provide phone number
                 phone_number = WebDriverWait(self.driver,2).until(EC.element_to_be_clickable((By.CLASS_NAME,"ember-text-field.ember-view.fb-single-line-text__input")))
                 phone_number.clear()
